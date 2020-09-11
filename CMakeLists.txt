@@ -60,5 +60,11 @@ if (DOXYGEN_FOUND)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM )
 else (DOXYGEN_FOUND)
-  message("Doxygen need to be installed to generate the doxygen documentation")
+	# https://stackoverflow.com/questions/18968979/how-to-get-colorized-output-with-cmake
+	if(NOT WIN32)
+		string(ASCII 27 Esc)
+		set(ColourReset "${Esc}[m")
+		set(BoldYellow  "${Esc}[1;33m")
+	endif()
+	message("${BoldYellow}WARNING: Doxygen need to be installed to generate the doxygen documentation${ColourReset}")
 endif (DOXYGEN_FOUND)
