@@ -38,6 +38,14 @@ target_link_libraries(strJson
   PRIVATE Qt5::Core Qt5::Quick)
 
 
+# https://stackoverflow.com/questions/18968979/how-to-get-colorized-output-with-cmake
+if(NOT WIN32)
+    string(ASCII 27 Esc)
+    set(ColourReset "${Esc}[m")
+    set(BoldYellow  "${Esc}[1;33m")
+    set(BoldGreen   "${Esc}[1;32m")
+endif()
+
 # https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
 # first we can indicate the documentation build as an option and set it to ON by default
 option(BUILD_DOC "Build documentation" ON)
@@ -51,7 +59,7 @@ if (DOXYGEN_FOUND)
 
     # request to configure the file
     configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    message("Doxygen build started")
+    message("${BoldGreen}Doxygen will be start start build${ColourReset}")
 
     # note the option ALL which allows to build the docs together with the application
     add_custom_target( doc_doxygen ALL
@@ -60,11 +68,5 @@ if (DOXYGEN_FOUND)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM )
 else (DOXYGEN_FOUND)
-	# https://stackoverflow.com/questions/18968979/how-to-get-colorized-output-with-cmake
-	if(NOT WIN32)
-		string(ASCII 27 Esc)
-		set(ColourReset "${Esc}[m")
-		set(BoldYellow  "${Esc}[1;33m")
-	endif()
 	message("${BoldYellow}WARNING: Doxygen need to be installed to generate the doxygen documentation${ColourReset}")
 endif (DOXYGEN_FOUND)
